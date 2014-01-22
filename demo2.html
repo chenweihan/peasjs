@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<head>
+    <title>简单案例</title>
+    <meta charset="utf-8">
+    <script src="peasjs.js"></script>
+    <script>
+        /**
+          *  模块c同时依赖b，c,但b, 同时依赖a,e
+          */
+         peas.use(['c'],function(exports){
+            console.log(exports);
+            return 'success!';
+        });
+    </script>
+</head>
+<body>
+    peasjs 模块加载器
+</body>
+</html>    

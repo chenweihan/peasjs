@@ -1,0 +1,11 @@
+         /**
+          *  模块b同时依赖 a,e
+          */
+             document.write("1111#可显示的文字内容<br/>"); 
+         peas.use(['b'],function(exports){
+             document.write("1111#可显示的文字内容<br/>"); 
+             console.log(exports);
+             //document.write(exports.a.hello+'#'+exports.e+'#'+exports.a);
+             return 'success!';
+         });
+

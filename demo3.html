@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <title>简单案例</title>
+    <meta charset="utf-8">
+    <script src="peasjs.js"></script>
+    <script>
+         
+        //测试 连续2次使用相同C模块,依赖的模块里有获取随机数和当前时间，函数都是即时运行的。
+        /**
+          *  模块c
+          */
+        peas.use(['c'],function(exports){
+            console.log(exports);
+            return 'success!';
+        });
+
+        /**
+          *  模块b同时依赖 a,e
+          */
+        peas.use(['c'],function(exports){
+            console.log(exports);
+            return 'success!';
+        });
+
+
+    </script>
+</head>
+<body>
+    peasjs 模块加载器
+</body>
+</html>    

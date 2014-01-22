@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <title>简单案例</title>
+    <meta charset="utf-8">
+    <script src="peasjs_s.js"></script>
+    <script>
+       /**
+        * 检测树形非单链上存在重复载入相同依赖模块,只要没有在单链形成闭环,这种情况是正常的,应该是不会提示死循环.
+        * 但实行太不了，如果B重复了，就要判断B的依赖是否闭环，但在判断B的依赖里，如果A依赖A就判断成了死循环，所以里面又要判断是否有重复,这里又要判断A了，A里面如果...一个无底洞。 我没去实现..
+        不是不能实行，在出现B的重复，就挂接在B模块的队列，然后继续，直到判断完毕为止。
+        实现了，判断父级的依赖是否重复即可。
+        peasjs_s.js已经实现 pidObj对象
+        */
+
+        /**
+          *  模块j依赖b,h,同时b依赖a,e,h有依赖a.  存在BUG
+          */
+        peas.use(['j'],function(exports){
+            console.log(exports);
+            return 'success!';
+        });
+
+    </script>
+</head>
+<body>
+    peasjs 模块加载器
+</body>
+</html>    

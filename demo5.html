@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <title>简单案例</title>
+    <meta charset="utf-8">
+    <script src="peasjs_s.js"></script>
+    <script>
+       /**
+        * 检测依赖死循环的情况.
+        */
+
+        /**
+          *  模块f同时依赖g,g又依赖f
+          */
+        peas.use(['f'],function(exports){
+            console.log(exports);
+            return 'success!';
+        });
+
+    </script>
+</head>
+<body>
+    peasjs 模块加载器
+</body>
+</html>    

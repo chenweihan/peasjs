@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <title>加载递归依赖</title>
+    <meta charset="utf-8">
+    <script src="peasjs.js"></script>
+    <script>
+       
+         peas.use(['c'],function(c){
+             console.log('amd依赖加载完成，输出最后结果:',c+'#use');  //hello, world!this is test;
+             return 'use';
+         });
+        
+         /* 
+         peas.use(['c'],function(c){
+              console.log(c,'再次使用');  //hello, world!this is test;
+         });
+
+         peas.use(['b'],function(c){
+              console.log(c,'再次使用');  //hello, world!this is test;
+          });
+          */
+
+
+
+    </script>
+</head>
+<body>
+    js 模块加载器
+</body>
+</html>    

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <title>简单案例</title>
+    <meta charset="utf-8">
+    <script src="peasjs.js"></script>
+    <script>
+       /**
+        * 检测模块缓存情况,现清空缓存，firebug或者chrome调试查看.
+        * 当b及依赖载入后，C模块也依赖b,相关的模块不会重新加载，但函数都是新执行的，看时间函数。
+        */
+
+        /**
+          *  模块b同时依赖 a,e
+          */
+        peas.use(['b'],function(exports){
+            console.log(exports);
+            return 'success!';
+        });
+
+        setTimeout(function() {
+            /**
+              *  模块c同时依赖b，c,但b, 同时依赖a,e
+              */
+            peas.use(['c'],function(exports){
+                console.log(exports);
+                return 'success!';
+            });
+
+        },5000);
+
+    </script>
+</head>
+<body>
+    peasjs 模块加载器
+</body>
+</html>    

@@ -1,0 +1,10 @@
+增强版 增加单链树死循环
+
+每个module生成自己的id,然后所有的子级与父级都使用id来关联，不使用moduleName,因为子级可以重复。
+
+
+peas.use 生成id
+method.beforeCreate   不论缓存，都生成 use起点对应的模块id
+子级没有载入？没有生成id??
+
+仔细分析后，只有xxxx.js？后面给关联参数,才能实现。
