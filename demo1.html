@@ -5,10 +5,9 @@
     <script src="peasjs.js"></script>
     <script>
         /**
-          *  模块b同时依赖 a,e
+          *  模块同时依赖 a,b   b是require方式引入的
           */
          peas.use(['a'],function(exports){
-            //var b = peas.require('b');
             peas.require('b');
             console.log(exports);
             return 'success!';
@@ -17,6 +16,6 @@
     </script>
 </head>
 <body>
-    peasjs 模块加载器
+    peasjs 模块加载器  console.log查看
 </body>
 </html>    
