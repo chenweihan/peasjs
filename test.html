@@ -5,16 +5,17 @@
     <script src="peasjs.js"></script>
     <script>
         /**
-          *  模块c同时依赖b，c,但b, 同时依赖a,e
+          *  模块同时依赖 a,b   b是require方式引入的
           */
          peas.use(function(exports){
-            peas.require('c');
+            peas.require('b');
             console.log(exports);
             return 'success!';
         });
+
     </script>
 </head>
 <body>
-    peasjs 模块加载器
+    peasjs 模块加载器  console.log查看
 </body>
-</html>    
+</html>  

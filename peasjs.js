@@ -363,8 +363,16 @@
            
          //引入模块     
          peas.use = function(deps,callback,parentName) {
+              var type = Object.prototype.toString.call(deps).slice(8, -1);
+              if (type == 'Array') {
+                  peas.useHandle(deps,callback,parentName);
+              } else if (type == 'Function') {
+                  peas.useHandle([],deps,parentName);
+              } 
+         } 
+         
+         peas.useHandle = function(deps,callback,parentName) {
              var name = parentName || deps.join( '_' ) + '_' + ( +new Date() ) + ( Math.random() + '' ).slice(-8);
-             
              //合并require方式引入的模块
              deps = peas.requireDeps(callback,deps);
              //判断初始模块使用 
