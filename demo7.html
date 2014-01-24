@@ -9,7 +9,7 @@
         */
 
         /**
-          *  模块k依赖m,h,同时m依赖a,h.依赖树单链存在有依赖死循环,会提示报错
+          *  模块k依赖m,h,同时m依赖a,h,同时h依赖m.依赖树单链存在有依赖死循环,会提示报错
           */
         peas.use(['k'],function(exports){
             console.log(exports);
@@ -20,6 +20,5 @@
 </head>
 <body>
     peasjs 模块加载器  eg:依赖树单链存在有依赖死循环  cosole.log查看
-
 </body>
 </html> 

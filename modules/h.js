@@ -1,4 +1,4 @@
-define('h',['a'],function(){
+define('h',['m'],function(){
     return 'h';     
 })
 
