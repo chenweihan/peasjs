@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <script src="peasjs.js"></script>
     <script>
+ 
         /**
-         *  需要完善的工作：压缩,组件机制(载入配置依赖),第三方库的使用,融入页面模块,模板引擎
+         *  需要完善的工作：压缩,组件机制(使用jquery组件机制，但需要完善载入配置依赖),第三方库的使用,融入页面模块,模板引擎
          */
         
         /**
@@ -13,32 +14,56 @@
          * 这里会遇到有些JS库并没有按照cmd/amd的规范去写，不方便接入，在实际开发过程中，更不会有时间去修改第三方库。
          */
          peas.config({
+                /***********系统配置[不能删除]*********/
                 //域名   
                 domain :'',
                 //路径
                 base : "/modules/",
                 //组件前缀
                 component : '',
-                //api
+                //共用库 只负责引入,全局的.
+                lib : ['jquery.js','util.js'],
+                /***********自定义配置**********/
+                //api调用前缀
                 api : '',
-                //共用库 
-                lib : ['jquery','util']
+        });
+        
+        /**
+         *  载入组件fly,this的问题需要解决
+         */
+        peas.use('/component/fly',['init.js'],function(){
+             console.log('载入完成!');
+             $('.item').fly({
+                tid : 'box',
+                speed : 'slow'
+             })
         });
 
+         //peas.checkModule();
 
-        /**
-         *  使用组件
+        
+
+         /*
+         peas.add('/component/fly',function(){
+             //闭包
+             ;(function($) {
+                $.fn.fly = function(options){
+                   //保持链式调用,如果重新赋值对象内部的子对象进行了非引用修改，需要返回修改后的对象
+                   return $(this);
+                }; 
+             })($);
+         })
          */
-         peas.use('/component/fly',[],function(){
-             var opt = {};
-             //调用组件
-                           
-             return 'success!';
-         });
         
     </script>
 </head>
 <body>
     peasjs 模块加载器  console.log查看
+    <div id='box'> <input type='button' value='已关注'></div>
+    <div> 习总书记强调指出，意识形态工作是党的一项极端重要的工作，事关党的前途命运，事关国家长治久安，事关民族凝聚力和向心力        <span class='item'> <input type='button' value='点我关注'></span></div>
+    <div> 习总书记强调指出，意识形态工作是党的一项极端重要的工作，事关党的前途命运，事关国家长治久安，事关民族凝聚力和向心力        <span class='item'> <input type='button' value='点我关注'></span></div>
+    <div> 习总书记强调指出，意识形态工作是党的一项极端重要的工作，事关党的前途命运，事关国家长治久安，事关民族凝聚力和向心力        <span class='item'> <input type='button' value='点我关注'></span></div>
+
+
 </body>
 </html>  
