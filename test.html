@@ -5,14 +5,37 @@
     <script src="peasjs.js"></script>
     <script>
         /**
-          *  模块同时依赖 a,b   b是require方式引入的
-          */
-         peas.use(function(exports){
-            peas.require('b');
-            console.log(exports);
-            return 'success!';
+         *  需要完善的工作：压缩,组件机制(载入配置依赖),第三方库的使用,融入页面模块,模板引擎
+         */
+        
+        /**
+         * 配置参数
+         * 这里会遇到有些JS库并没有按照cmd/amd的规范去写，不方便接入，在实际开发过程中，更不会有时间去修改第三方库。
+         */
+         peas.config({
+                //域名   
+                domain :'',
+                //路径
+                base : "/modules/",
+                //组件前缀
+                component : '',
+                //api
+                api : '',
+                //共用库 
+                lib : ['jquery','util']
         });
 
+
+        /**
+         *  使用组件
+         */
+         peas.use('/component/fly',[],function(){
+             var opt = {};
+             //调用组件
+                           
+             return 'success!';
+         });
+        
     </script>
 </head>
 <body>
