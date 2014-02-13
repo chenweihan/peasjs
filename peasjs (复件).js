@@ -38,7 +38,7 @@
       */
 
      var debug = false,  //模块不会缓存，同时浏览器请求的js都是最新的[调试打开后,调试dome4.html即可明白]
-         modulePath = 'modules/', //载入js的路径
+         modulePath = 'modules/', //载入js 模块的路径
          componentPath = 'component/', //载入js 组件的路径
          moduleTemp = {},   //用户use启始模块,临时保存,以方便找出依赖链
          moduleCache = {},  //缓存module模块
@@ -59,10 +59,10 @@
                     names = data.deps;
                 
                 //循环载入js
-                for (var i=0 ; i < names.length; i++ ) { 
+                for(var i=0 ; i < names.length; i++ ) { 
                      //console.log('loaded module',names[i]);
                      if (this.beforeCreate(names[i])) {   
-                         this.create(names[i]);
+                         this.create(names[i],name);
                          //console.log('loaded define module',names[i]);
                      }
                 } 
@@ -90,31 +90,29 @@
          /**
           * 清除缓存http 
           */
-         method.path = function(name) {
-                var path='',d = new Date();
-               
-                if (name.indexOf(componentPath) > -1) {
-                    path = name;
+         method.path = function(name,sname) {
+                var path,d = new Date();
+                if (sname.indexOf(componentPath) > -1) {
+                    path = sname +'/'+ name;
                 } else {
                     path = modulePath + name + '.js';
                 }
-
                 if (debug) {
                     path = path+"?time="+d.getTime();   
                 }
-
                 return path; 
          };
 
          /**
           * 创建dom,载入js
           * @param name 模块名
+          * @parem sname 起点模块名
           */   
-         method.create = function(name) {
+         method.create = function(name,sname) {
              var head = document.getElementsByTagName('head').item(0),
                  script = document.createElement("script"); 
                  script.type = "text/javascript"; 
-                 script.src = this.path(name);
+                 script.src = this.path(name,sname);
                  script.async = true;
                  script.onreadystatechange = script.onload = function() {
                        if (!this.readyState || this.readyState=='loaded' || this.readyState=='complete') {
@@ -154,7 +152,7 @@
                               state : 0,    //函数执行状态
                               exports : {}  //缓存函数执行返回值
                         };
-                              
+                       
                         //递归检测树单链闭环
                         pidObj[id] = {
                               name : i,      //模块名
@@ -167,7 +165,7 @@
                         
                         //每个模块载入判断是否加载完成 
                         bool = this.allLoaded(single);
-                          
+
                     if (bool && !defsBool) {      
                         this.fireFactory(i,single);
                         //use的起点是随机的模块名,不可能在调用，清除以节约内存
@@ -367,24 +365,6 @@
              }
          };
 
-         //第三方组件引入,依赖只有一级,不会递归查找依赖
-         method.checkComponentDeps = function(name) {
-             console.log(moduleCache);
-             var bool = true,deps = moduleCache[name].deps,callback = moduleCache[name].callback;
-                 for (var i in deps) {
-                      if (typeof(moduleCache[deps[i]]) == 'undefined') {
-                          bool = false;
-                      }  
-                 }
-             if (bool) {
-                 console.log("执行回调");
-                  
-             } else {
-                 console.log("载入异常");
-             }
-             console.log('检查加载是否成功!');
-         };
-
      /**********************加载器********************/
      var peas = {}; 
            
@@ -395,15 +375,19 @@
                   peas.useHandle(deps,callback,parentName);
               } else if (type == 'Function') {
                   peas.useHandle([],deps,parentName);
+              } else if (type == 'String') {
+                  peas.useHandle(callback,parentName,deps);
               } 
          } 
          
          peas.useHandle = function(deps,callback,parentName) {
+             
              var name = parentName || deps.join( '_' ) + '_' + ( +new Date() ) + ( Math.random() + '' ).slice(-8);
              //合并require方式引入的模块
              deps = peas.requireDeps(callback,deps);
+
              //判断初始模块使用 
-             if (typeof(parentName)  == 'undefined') {
+             if (typeof(parentName)  == 'undefined' || parentName.indexOf(componentPath) > -1) {
                 
                  var id = method.randomNum('m');
 
@@ -429,7 +413,7 @@
                  };
 
              } 
-             
+
              //加载文件 
              method.load(name);
          };
@@ -438,7 +422,7 @@
              //return exports[moduleName];
              //return 'test';
          };
-
+            
          //匹配依赖 
          peas.requireDeps = function(callback,deps) {
              var str = callback.toString(),
@@ -466,21 +450,14 @@
           //判断是否继续执行依赖模块 
           //console.log('defined',name);
           if (!defsBool) {
-             
              moduleCache[name].callback = callback,
              moduleCache[name].deps = deps;
              moduleCache[name].state = 1;
              if (deps.length > 0) {
                   peas.use(deps,callback,name);
              }
-           
-              //判读是否是第三方引入
-             if (name.indexOf(componentPath) > -1) {
-                 method.checkComponentDeps(name);
-             } else {
-                 //检测依赖，执行回调函数
-                 method.checkDeps(name);
-             }
+             //检测依赖，执行回调函数
+             method.checkDeps(name);
           }
      }
      //peas对外接口

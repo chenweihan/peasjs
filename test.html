@@ -6,54 +6,42 @@
     <script>
  
         /**
-         *  需要完善的工作：压缩,组件机制(使用jquery组件机制，但需要完善载入配置依赖),第三方库的使用,融入页面模块,模板引擎
+         *  需要完善的工作：nodejs压缩工具,组件机制(使用jquery组件机制，但需要完善载入配置依赖css/js/image),第三方库的方便引入使用,融入页面模块,模板引擎
          */
         
         /**
-         * 配置参数
+         * 页面模块配置参数
          * 这里会遇到有些JS库并没有按照cmd/amd的规范去写，不方便接入，在实际开发过程中，更不会有时间去修改第三方库。
-         */
          peas.config({
-                /***********系统配置[不能删除]*********/
+                //***********系统配置[不能删除]*********
                 //域名   
-                domain :'',
+                domain : '',
                 //路径
-                base : "/modules/",
-                //组件前缀
-                component : '',
+                base : "modules/",
+                //组件
+                component : 'component/',
                 //共用库 只负责引入,全局的.
                 lib : ['jquery.js','util.js'],
-                /***********自定义配置**********/
+
+                //***********自定义配置***************
                 //api调用前缀
                 api : '',
         });
-        
+        */ 
+       
         /**
          *  载入组件fly,this的问题需要解决
+         *  使用组件fly模块,使用init.js是解决依赖统一问题，方便调用，也便于维护
          */
-        peas.use('/component/fly',['init.js'],function(){
+        peas.use(['component/fly/init.js'],function() {
              console.log('载入完成!');
+             /*
              $('.item').fly({
                 tid : 'box',
                 speed : 'slow'
              })
+             */
         });
-
-         //peas.checkModule();
-
-        
-
-         /*
-         peas.add('/component/fly',function(){
-             //闭包
-             ;(function($) {
-                $.fn.fly = function(options){
-                   //保持链式调用,如果重新赋值对象内部的子对象进行了非引用修改，需要返回修改后的对象
-                   return $(this);
-                }; 
-             })($);
-         })
-         */
         
     </script>
 </head>
