@@ -370,6 +370,7 @@
          //第三方组件引入,依赖只有一级,不会递归查找依赖
          method.checkComponentDeps = function(name) {
              console.log(moduleCache);
+             //可以循环tempCache匹配出组件的起点模块，遍历，在回调
              var bool = true,deps = moduleCache[name].deps,callback = moduleCache[name].callback;
                  for (var i in deps) {
                       if (typeof(moduleCache[deps[i]]) == 'undefined') {
@@ -378,7 +379,6 @@
                  }
              if (bool) {
                  console.log("执行回调");
-                  
              } else {
                  console.log("载入异常");
              }
