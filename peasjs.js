@@ -1,7 +1,7 @@
 /*
  * Created with Vim7.3 ubuntu10.04
  * @fileOverview : peasjs加载器
- * @author : Chen weihan <csq-3@163.com>  码农名：飞火 www.copperpeas.com
+ * @author : Chen weihan <csq-3@163.com>  飞火 
  * @since : 2013年11月18日 星期一 21时32分17秒
  * @filename : peasjs.js
  * @version : v1.0
