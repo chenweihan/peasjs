@@ -120,9 +120,21 @@
                        if (!this.readyState || this.readyState=='loaded' || this.readyState=='complete') {
                            head.removeChild(script);
                            script = null;
+                           method.afterLoaded(name);
                        }
                  };
                  head.appendChild(script);  
+         };
+
+         /**
+          *  载入后响应
+          */
+         method.afterLoaded = function(name) {
+                 //console.log(name);
+                 if (name.indexOf(componentPath) > -1) {
+                     moduleCache[name].state = 1;
+                     method.checkComponentDeps();
+                 }
          };
 
          /*
@@ -368,21 +380,40 @@
          };
 
          //第三方组件引入,依赖只有一级,不会递归查找依赖
-         method.checkComponentDeps = function(name) {
-             console.log(moduleCache);
-             //可以循环tempCache匹配出组件的起点模块，遍历，在回调
-             var bool = true,deps = moduleCache[name].deps,callback = moduleCache[name].callback;
-                 for (var i in deps) {
-                      if (typeof(moduleCache[deps[i]]) == 'undefined') {
-                          bool = false;
-                      }  
-                 }
-             if (bool) {
-                 console.log("执行回调");
-             } else {
-                 console.log("载入异常");
+         method.checkComponentDeps = function() {
+             for (var i in moduleTemp) {
+                  if (moduleTemp[i].name.indexOf(componentPath) > -1) {
+                      method.callbackComponent(moduleTemp[i]);
+                  }
              }
-             console.log('检查加载是否成功!');
+         };
+        
+         //第三方库的回调
+         method.callbackComponent = function(mod) {
+                 var deps = mod.deps,
+                     bool = true,
+                     exports = {},
+                     callback = moduleCache[mod.name].callback; 
+
+                 if (deps.length > 0 ) {
+                     if(!moduleCache[deps[0]].state) {
+                         bool = false;
+                     } else {
+                         var deps2 = moduleCache[deps[0]].deps;
+                         for (var i in deps2) {
+                             if(!moduleCache[deps2[i]].state) {
+                                bool = false;
+                             }
+                         }
+                     }                     
+                     if (bool) {
+                        var exports = moduleCache[deps[0]].callback();
+                        callback(exports);
+                     }
+                 } else {
+                     callback({});
+                 }
+
          };
 
      /**********************加载器********************/
