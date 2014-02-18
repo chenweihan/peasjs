@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <title>简单案例</title>
+    <meta charset="utf-8">
+    <script src="peasjs.js"></script>
+    <script>
+ 
+        
+        //插件机制，调用海量的jquery插件
+
+        /**
+         *  载入组件fly,this的问题需要解决
+         *  使用组件fly模块,使用init.js是解决依赖统一问题，方便调用，也便于维护
+         */
+        peas.use(['component/fly/init.js'],function(exports) {
+             console.log(exports,'载入完成!');
+             $('.item').fly({
+                 tid : 'box',
+                 speed : 'slow'
+             });
+             
+        });
+        
+    </script>
+</head>
+<body>
+    peasjs 模块加载器  console.log查看
+    <div id='box'> <input type='button' value='已关注'></div>
+    <div> 习总书记强调指出，意识形态工作是党的一项极端重要的工作，事关党的前途命运，事关国家长治久安，事关民族凝聚力和向心力        <span class='item'> <input type='button' value='点我关注'></span></div>
+    <div> 习总书记强调指出，意识形态工作是党的一项极端重要的工作，事关党的前途命运，事关国家长治久安，事关民族凝聚力和向心力        <span class='item'> <input type='button' value='点我关注'></span></div>
+    <div> 习总书记强调指出，意识形态工作是党的一项极端重要的工作，事关党的前途命运，事关国家长治久安，事关民族凝聚力和向心力        <span class='item'> <input type='button' value='点我关注'></span></div>
+</body>
+</html>  
