@@ -27,6 +27,9 @@ peasjs 是一个js以模块方式开发的模块加载器小型框架。
 
 **注：** 更多使用请下载demo,console调试查看。
 
+
+## 完善了海量jquery插件引入方式 具体见plug.html 
+
 ### 链接
 项目主页：<https://github.com/chenweihan/peasjs>
 
