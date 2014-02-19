@@ -49,7 +49,7 @@
      /*********************私有方法*******************/
      //私有方法
      var method = {};
-
+      
          /**
           * 加载
           * @param name 模块名
@@ -66,7 +66,7 @@
                          //console.log('loaded define module',names[i]);
                      }
                 } 
-
+           
          };
          
          /**
@@ -96,21 +96,38 @@
                 if (name.indexOf(componentPath) > -1) {
                     path = name;
                 } else {
-                    path = modulePath + name + '.js';
+                    if (name.indexOf('.css') > -1) {
+                        path = modulePath + name;
+                    } else {
+                        path = modulePath + name + '.js';
+                    }
                 }
 
                 if (debug) {
                     path = path+"?time="+d.getTime();   
                 }
-
                 return path; 
          };
 
          /**
-          * 创建dom,载入js
-          * @param name 模块名
-          */   
+          * js/css分别载入
+          */
          method.create = function(name) {
+               if (name.indexOf('.css') > -1) {
+                   method.createCss(name);
+                   //css的文件状态,默认为state=1,css之间不存在依赖关系,其他依赖仅存在渲染。
+                   moduleCache[name].state = 1;
+               } else {
+                   method.createJs(name);
+               } 
+         };
+
+         /**
+          * 创建dom,载入js
+          * @param name 文件名
+          */   
+         method.createJs = function(name) {
+
              var head = document.getElementsByTagName('head').item(0),
                  script = document.createElement("script"); 
                  script.type = "text/javascript"; 
@@ -125,6 +142,17 @@
                  };
                  head.appendChild(script);  
          };
+
+         /**
+          * 创建dom,载入css
+          * @param name 文件名
+          */
+         method.createCss = function(name) {
+              var link = document.createElement("link");
+                  link.rel = "stylesheet";
+                  link.href = this.path(name);
+                  document.getElementsByTagName("head")[0].appendChild(link);        
+          };
 
          /**
           *  载入后响应
