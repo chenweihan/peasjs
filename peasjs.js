@@ -513,7 +513,28 @@
              }
              return arr.concat(deps);          
         };
-     
+
+        /**
+         * 初始化配置,lib一定的先加载进去
+              {
+                //***********系统配置*********
+                //路径
+                modulePath : "modules/",
+                //组件
+                componentPath : 'component/',
+                //共用库ccs/js 只负责引入,全局的.
+                lib : ['jquery.js','util.js'],
+
+                //***********自定义配置***************
+                //api调用前缀
+                api : '',
+                ........
+               }
+        peas.config = function(option) {
+              var lib = (option.lib == undefined ? option.lib : []);
+
+        };
+        */ 
      /*********************外部接口*******************/
      /**
       * define 模块方法
